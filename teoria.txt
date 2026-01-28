@@ -1,0 +1,95 @@
+Los microservicios sirven para poder separar un sistema/aplicación/etc por funcionalidades,
+de esta forma podemos tener un programa mas escalable y si algun microservicio cae o no funciona no deberia caerse todo.
+
+Los microservicios pueden estar hechos con distintas tecnologías de acuerdo a sus necesidades y tener sus propios entornos virtuales, 
+tambien se puede usar docker (contenedores) y kubernettes que es para manejar estos contenedores
+
+requisitos de un microservicio: 
+cumplir una sola funcion
+ser autónomo
+estar aislado (propio entorno, base de datos propia)
+
+para implementar sistemas con microservicios se usa
+    arquitectura hexagonal: puertos y adaptadores
+        - puertos:interfaces q definen como se conectan lso microservicios
+        - adaptadores: las implementacioens
+    api gateway: enrutador de peticiones
+        - administra los endpoints internamente y hacia afuera solo muestra un unico endpoint (gestiona su seguridad)
+        - azure api management, google cloud endpoints, aws api gateway.
+    serverless: sin servidor
+        - el proovedor de nube asegura los recursos de forma automatica
+        - el proovedor asigna recursos cuando se ejecuta
+            (se mantiene apagado mientras no se usa y cuando se ejecuta se enciende)
+        - cloud functions, azure functions, aws lambda
+
+Que es una API? Interfaz de Programacion de Aplicaciones
+    Conjunto de reglas y protocolos que permite a diferentes programas de dsoftware comunicarse e intercambiar datos de forma estandarizada
+    actúa como un intermediario que define como solicitar y entregar informacion entre sistemas 
+Sirve para:
+    intercambio de datos, integracion, simplificar desarollo, modularidad y seguridad
+
+Que es rest? Representational State Transfer
+    Es un estilo de arquitectura para diseñar APIs web (apis restful) que usan HTTP para la comunicacion cliente-servidor segura y facil
+    las apis restful siguen los principios rest para ser una api sencilla, escalable y facil de integrar.
+    verbos http: CREATE, POST, PUT/PATCH, DELETE
+
+Principios rest: 
+    - Interfaz uniforme
+    - Tecnología sin estado
+    - Sistema por capas
+    - Almacenamiento en caché
+    - Código bajo demanda
+
+Flujo de una API:
+    - Cliente envia solicitud al servidor en el formato q corresponde
+    - Servidor autentica al cliente y confirma que tenga derecho a hacer tal solicitud
+    - server recibe la peticion y la procesa internamente
+    - devuelve la respuesta al cliente. Hay un mensaje de respuesta de solicitud (200, 201) + la informacion solicitada por el cliente. 
+
+Client request: 
+    Unique resource identifier: URL
+    Method: GET, POST, PUT/PATCH, DELETE.
+    HTTP headers: request headers son los metadatos que intercambian el cliente y servidor. indica el formato de la request y la respuesta, provee info sobre el status
+    Data
+    Parameters: path parameters, query parameters, cookie parameters.
+
+Metodos de autentificacion en APIS rest:
+    Bearer, API keys, OAuth, JWT... entre otros.
+
+Response:
+    Status line: son 3 digitos que indican si la request tuvo exito o no
+    los 200: succesful responses
+    300: mensajes de redireccion
+    400: respuesta de error del cliente
+    500: respuesta de error del servidor
+
+Qué es un endpoint?
+    URLs especificas que funcionan como puertas de enlace para que el cliente pueda interactuar con el servidor.
+    Definen donde y como se van a realizar acciones como crear, leer, actualizar o borrar datos.
+    Son algo fundamental para la comunicacion WEB y las interacciones con una API.
+
+Buenas prácticas para diseño de Endpoints:
+    - Usar sustantivos para recursos ej.: users y no getUsers
+    - Usar letras minusculas y guiones para mejor lectura ej.: product-details
+    - Versionar las APIs ej.: /v1/products
+    - usar query params para filtrar ej.: /products?category=electronics
+
+
+JWT (JSON Web Token)
+    Es un estándar abierto para transmitir información de forma segura entre dos partes como un objetos JSON, de manera compacta y autónoma.
+    Útil para la autenticación en aplicaciones web y APIs
+Partes de JWT: Las cuales se mandan en formato JSON
+    - Header: contiene metadatos sobre el token (el tipo de token y el algoritmo de firma)
+    - Payload (carga util): contiene la informacion a transmitir y claims (datos sobre el usuario como id del user, rol, fecha de expiracion) 
+    - Signature (firma): se crea combinando  el header, el payload(codificado en base64) y una frase secreta, se usa para verificar que el token no sea alterado.
+
+Ventajas de JWT
+    - Autentificación Stateless: La falta de estado significa que cada solicitud HTTP se realiza de forma completamente aislada. 
+Cuando el cliente realiza una solicitud HTTP, incluye toda la información necesaria para que el servidor cumpla con esa solicitud.
+El servidor nunca depende de información de solicitudes anteriores. Asi se evita almacenar datos de sesión reduciendo el uso de recursos (del lado del servidor). El cliente almacena mediante cookies o session tokens.
+    - Interoperabilidad: Al ser un estandar abierto es complatible en gran variedad de lenguajes y plataformas
+    - Seguridad: Al estar firmado digitalmente, JWT garantiza que la información no ha sido alterada
+
+
+Gestión de Errores:
+Patrón Circuit Breaker:
